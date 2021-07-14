@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View, 
-  Button,
   StyleSheet, 
   Text, 
   StatusBar,
@@ -12,7 +11,8 @@ import { useRoute } from '@react-navigation/core';
 import { useNavigation } from '@react-navigation/core';
 
 
-import {Header} from '../../components/Header'
+import {Header} from '../../components/Header';
+import { Button }  from '../../components/Button';
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 
@@ -95,12 +95,23 @@ function handleProductSelect (produtoMensagem:ProdutoMensagem){
       
       <View style={styles.contentButton}>
       <View style={styles.button}>
-      <Button title="voltar" color={colors.highlightColor} onPress={handlePrevious} />
+      
+      <Button 
+      onPress={handlePrevious}
+      title="Voltar"
+      
+      />
       </View>
       {!produto.meusProduto
       ?
       <View style={styles.button}>
-      <Button title="Contratar" color="#5eaa53" onPress={() => {handleProductSelect(produtoMensagem)}} />
+      
+      <Button 
+       onPress={() => {handleProductSelect(produtoMensagem)}}
+      title="Contratar"
+      
+      />
+     
       </View>
       :
       <View></View>
@@ -119,7 +130,7 @@ const styles = StyleSheet.create ({
     paddingHorizontal:20,
     paddingTop: StatusBar.currentHeight || 20,
     paddingBottom: StatusBar.currentHeight || 20,
-    backgroundColor:colors.background
+    backgroundColor:colors.background,
     
   },
   contentProduto:{
@@ -130,8 +141,6 @@ const styles = StyleSheet.create ({
     paddingVertical: 10,
     paddingHorizontal:10,
     paddingBottom:40,
-   
-  
    
   },
  header:{
@@ -147,7 +156,7 @@ const styles = StyleSheet.create ({
   },
   
   description:{
-    fontSize:18,
+    fontSize:16,
     fontWeight:'400',
     textAlign:'center',
     color: colors.text,
@@ -156,8 +165,9 @@ const styles = StyleSheet.create ({
     maxWidth:330,
   },
   button:{
-    marginTop:20,
-    alignItems:'center',
+    marginTop:0,
+    marginBottom:30,
+    alignItems:'flex-start',
     paddingHorizontal:5,
   },
   contentButton:{

@@ -1,11 +1,11 @@
 import React from 'react';
 import {
   View, 
-  Button,
   StyleSheet, 
   Text, 
   StatusBar,
   ScrollView,
+  Linking
 } from 'react-native';
 
 import { useRoute } from '@react-navigation/core'; 
@@ -15,6 +15,7 @@ import { useNavigation } from '@react-navigation/core';
 import {Header} from '../../components/Header'
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
+import { Button }  from '../../components/Button';
 
 interface Params {
   historico:{
@@ -23,6 +24,8 @@ interface Params {
     category:string;
     date:string;
     description:string;
+    fileAppUrl:string;
+    fileAppName:string;
   
   }
 }
@@ -40,7 +43,9 @@ const navigation = useNavigation();
 function handlePrevious () {
   navigation.goBack();
 }
-
+function openURL()  {
+  Linking.openURL(historico.fileAppUrl).catch((err) => console.error('An error occurred', err));
+}
   return (
     <View style={styles.container}>
       <Header/>
@@ -56,13 +61,31 @@ function handlePrevious () {
       <Text style={styles.info}>
           Data: {historico.date}
       </Text>
-      <Text >
-          {historico.description}
+      <Text style={styles.description} >
+          {historico.description.replace("</br>", "\n").replace("<br/>", "\n")}
+      </Text>
+      { historico.fileAppUrl?
+      <View>
+        <Text style={styles.info} onPress={openURL}>
+         Arquvo anexo:
+        </Text>
+        <Text onPress={openURL} style={styles.link}>
+        {historico.fileAppName}
       </Text>
       </View>
-      
+      :
+      <Text>
+      </Text>
+}     
+      </View>
+      <View style={styles.contentButton}>
       <View style={styles.button}>
-      <Button title="voltar" color={colors.highlightColor} onPress={handlePrevious} />
+
+      <Button 
+      onPress={handlePrevious}
+      title="Voltar"
+      />
+      </View>
       </View>
       </ScrollView>
     </View>
@@ -77,7 +100,7 @@ const styles = StyleSheet.create ({
     paddingHorizontal:20,
     paddingTop: StatusBar.currentHeight || 20,
     paddingBottom: StatusBar.currentHeight || 20,
-    backgroundColor:colors.background
+    backgroundColor:colors.background,
     
   },
   contentHistorico:{
@@ -88,9 +111,6 @@ const styles = StyleSheet.create ({
     paddingVertical: 10,
     paddingHorizontal:10,
     paddingBottom:40,
-   
-  
-   
   },
  header:{
     justifyContent: 'center',
@@ -104,7 +124,7 @@ const styles = StyleSheet.create ({
 
   },
   subtitle:{
-    fontSize:18,
+    fontSize:16,
     fontWeight:'400',
     textAlign:'center',
     color: colors.text,
@@ -112,29 +132,36 @@ const styles = StyleSheet.create ({
     fontFamily:fonts.text,
     maxWidth:330, 
   },
-  name:{
-    fontSize:24,
-    fontWeight:'700',
-    textAlign:'center',
-    color: colors.title,
-    marginBottom:20,
-    fontFamily:fonts.heading,
-  },
   description:{
     fontSize:16,
     fontWeight:'400',
-    textAlign:'center',
+    textAlign:'left',
     color: colors.text,
     marginBottom:20,
     fontFamily:fonts.text,
     maxWidth:330,
   },
   button:{
-    marginTop:20,
-    alignItems:'baseline',
+    marginTop:0,
+    marginBottom:30,
+    alignItems:'flex-start',
+    paddingHorizontal:5,
+  },
+  contentButton:{
+    justifyContent:'flex-end',
+    alignItems:'center',
+    flexDirection:'row',
   },
   info:{
     marginBottom:10, 
+    fontSize:16,
+    fontFamily:fonts.text,
+  },
+  link:{
+    color:colors.colorActive,
+   textDecorationLine:'underline',
+   fontSize:16,
+   
   }
    
 })

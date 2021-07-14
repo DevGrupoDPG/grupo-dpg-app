@@ -30,6 +30,8 @@ interface HistoricoDoCliente {
   name: string;
   title: string;
   category:string;
+  fileAppUrl:string;
+  fileAppName:string;
 
 }
 
@@ -40,6 +42,8 @@ interface DataCategory{
   title: string;
   category:string;
   date: string;
+  fileAppUrl:string;
+  fileAppName:string;
 }
 
 interface DataNotification{
@@ -64,9 +68,7 @@ const [category, setCategory] = useState<DataCategory[]>([]);
 const [filteredCategoria, setFilteredCategoria] = useState<DataCategory[]>([]);
 const [categorySelected, setCategorySelected]  = useState('Todos');
 
-const [ page, setPage] = useState(1);
-const [ loadingMore, setLoadingMore] = useState(false);
-const [ loadeAll, setLoadeAll]  = useState(false);
+
 
 
 
@@ -140,6 +142,7 @@ useEffect(() => {
             setCategory(res.data?.historico);
             setFilteredCategoria(res.data?.historico);
             setNotificacao(res.data?.historico);
+           
          
             
             
@@ -233,7 +236,7 @@ function handleHistoricoSelect (historico:HistoricoDoCliente){
   navigation.navigate('Histórico', {historico});
 }
 
-
+console.log(filteredCategoria);
 
 return (
     <View style={styles.container}>
@@ -265,22 +268,29 @@ return (
          />
       </View>
       <View style={styles.containerCard}>
+     { filteredCategoria.length != 0
+      ?
       <FlatList
-        data={filteredCategoria}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item } ) => (
-            
-          <HistoricoCard  
-          data={item}
-          onPress={() => handleHistoricoSelect(item)} />
+      data={filteredCategoria}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({ item } ) => (
+       
+        <HistoricoCard  
+        data={item}
+        onPress={() => handleHistoricoSelect(item)} />
         
-        )}
-        
-        showsVerticalScrollIndicator={false}
-        onEndReachedThreshold={0.1}
-        numColumns={1}
+      )}
+      
+      showsVerticalScrollIndicator={false}
+      onEndReachedThreshold={0.1}
+      numColumns={1}
 
-      />
+    /> 
+    :
+        <Text>Não tem históricos para ser exibido!</Text>
+      
+    }
+      
       </View>
     </View>
   );

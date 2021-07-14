@@ -18,6 +18,7 @@ interface HistoricoProps extends RectButtonProps {
     title: string;
     category:string;
     date: string; 
+    
   }
 }
 
@@ -49,7 +50,7 @@ export const HistoricoCard = ({ data, ...rest} : HistoricoProps) => {
         Título: { data.title.substr(0, 20) }
       </Text>
       <Text style={styles.cardCategoria}>
-        {data.category? 'Categoria: ' + data.category.substr(0, 40): 'Categoria não definida.'}
+        {data.category? 'Categoria: ' + data.category.substr(0,14): 'Categoria não definida.'}
       </Text>
       <Text style={styles.visualizar}>
       Visualizar

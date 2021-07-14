@@ -102,7 +102,7 @@ signIn(data.email , data.password);
             <Text style={styles.buttonText} >
               Acessar
             </Text>
-          </TouchableOpacity>       
+        </TouchableOpacity>       
         </View>   
         </View>
    
@@ -167,7 +167,7 @@ const styles = StyleSheet.create ({
     backgroundColor:colors.colorActive,
     justifyContent:'center',
     alignItems: 'center',
-    borderRadius:16,
+    borderRadius:7,
     marginTop:30,
     marginBottom:10,
     minHeight: 42,

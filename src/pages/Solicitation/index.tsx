@@ -8,24 +8,24 @@ import {
   TextInput,
   Alert, 
   SafeAreaView,
-  KeyboardAvoidingView, 
-  Button,
+  KeyboardAvoidingView,
   Platform } from 'react-native';
   import {Picker} from '@react-native-picker/picker';
   import * as DocumentPicker from 'expo-document-picker';
   import * as FileSystem from 'expo-file-system';
+
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useForm, Controller ,} from "react-hook-form";
 import { useNavigation } from '@react-navigation/core';
 import AuthContext  from '../../contexts/auth';
 import {Header} from '../../components/Header';
+import { Button }  from '../../components/Button';
 
 
 import api from '../../services/api';
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
-
 
 
 
@@ -42,6 +42,7 @@ interface DataForm{
   categoria_do_historico: any;
   userEmail:string,
   selectedCategory:string,
+  fileAppUrl: string,
  
   
 }
@@ -50,8 +51,9 @@ interface DataCategory{
   id: number;
 }
 interface DataArquivoInfo{
-  type: string;
- 
+    name: string;
+    uri: string;
+    type: string;
 }
 
 interface DataArquivo{
@@ -66,8 +68,9 @@ interface DataArquivo{
 export default function Solicitation () {
   const [userStor, setUser] = useState<User | null |string>(null);
   const [client, setClient] = useState<User | null |string>(null);
-  const [arquivo, setArquivo] = useState<DataArquivoInfo>();
   const [selectedCategory, setSelectedCategory] = useState();
+  const [file, setFile] = useState();
+  const [urlBase4, setUrlBase4] = useState<DataArquivoInfo>();
 
 const [category, setCategory] = useState<DataCategory>();
 
@@ -89,45 +92,24 @@ const  user = useContext(AuthContext);
       
        if (result.type == 'success') {
     
-        let { name, size, uri } = result;
+        let { name, uri } = result;
         let nameParts = name.split('.');
+        const urlBase64: string = await FileSystem.readAsStringAsync(
+          uri,
+           {
+               encoding: FileSystem.EncodingType.Base64,
+           });
+           
         let fileType = nameParts[nameParts.length - 1];
-        var fileToUpload = {
+
+        let fileToUpload = {
           name: name,
-          size: size,
-          uri: uri,
-          type: "application/" + fileType
+          type:  fileType,
+          uri: urlBase64,
+          
         };
-        console.log(fileToUpload)
-        setArquivo(result);
-        var aFileParts = ['hey!']; // an array consisting of a single DOMString
-var oMyBlob = new Blob(aFileParts, {type : "text/plain"}); // the blob
-var file = new File([oMyBlob], "foo.txt", {
-  type: "text/plain",
-});
-        console.log(oMyBlob);
-        await api({
-    
-          method: 'POST',
-          url:"/wp-json/wp/v2/media",
-          headers: {
-            'Content-type': "text/plain",
-            'Content-Disposition' : 'attachment;  filename=' + 'teste.txt',
-            
-          },
-          data: file
-        })
-        .then((res) => {
-    
-    
-          
-       
-             
-           })
-           .catch((error) => {
-             Alert.alert('Erro a enviar solicitação 😢 ')
-          
-           })
+        setUrlBase4(fileToUpload);
+           
 
       }
      
@@ -180,21 +162,23 @@ const formData = new FormData();
 
   api.defaults.headers['Authorization'] = `Bearer ${storagedToken}`;
   
-  api.post('/wp-json/wp/v2/historico', {
+  api.post('/wp-json/api/v1/historico', {
 
       title: data.title,
       status : "publish",
-      content : data.content,
+      content : data.content ,
       meta: {
         "dpg_user_select":  [
           user.userEmail  
         ],
         "dpg_notification_hidden": "false",
       },
-      categoria_do_historico: [
-        selectedCategory
+      categoria_do_historico: selectedCategory,
+      fileToUpload:[
+        urlBase4?.name,
+        urlBase4?.type,
+        urlBase4?.uri
       ],
-    
     
      
 
@@ -202,8 +186,10 @@ const formData = new FormData();
  
 
     reset(defaultValues);
-    sendEmailApp(data);
+    setFile(res.data)
+    sendEmailApp(res.data);
    handleAcknowledgment ();
+  
    
        
      })
@@ -235,6 +221,7 @@ useEffect(() => {
       if(res.data?.cliente){
         
         setClient(res.data?.cliente);
+        
        
   
        }
@@ -255,7 +242,7 @@ useEffect(() => {
 function sendEmailApp (data:DataForm){
 
   let formId = '';
-  if(data.title && user.userEmail && data.content && selectedCategory){
+  if(data.title && user.userEmail && data.content && selectedCategory ){
 
     
   
@@ -264,7 +251,7 @@ function sendEmailApp (data:DataForm){
      formData.append("email", `${user.userEmail}`);
      formData.append("nome", `${user.userName}`);
      formData.append("cliente", `${client}`);
-     formData.append('arquivo', `${arquivo}`);
+     formData.append('arquivo', `${data.fileAppUrl}`);
      if(selectedCategory == 5){
        formData.append("assunto", "Suporte");
        formId = '456';
@@ -303,43 +290,6 @@ function sendEmailApp (data:DataForm){
   }
 
 }
-
-
-
-
-
-
-
-async function uploadDoc(arquivo:DataArquivo){
-  
-  
-    await api({
-    
-      method: 'POST',
-      url:"/wp-json/wp/v2/media",
-      headers: {
-        'Content-type': arquivo.file.type,
-        'Content-Disposition' : 'attachment;  filename=' + arquivo.file.name,
-        
-      },
-      data: arquivo.file
-    })
-    .then((res) => {
-
-
-      
-   
-         
-       })
-       .catch((error) => {
-         Alert.alert('Erro a enviar solicitação 😢 ')
-      
-       })
- 
-
-}
-
-
 
   return (
     <View style={styles.container}>
@@ -380,20 +330,25 @@ async function uploadDoc(arquivo:DataArquivo){
                 selectedValue={selectedCategory}
                 onValueChange={(itemValue) =>  setSelectedCategory(itemValue)}
               >
-                <Picker.Item label="Selecionar departamento*:"value="" />
+                <Picker.Item label="Selecionar departamento*:"value="Atendimento" />
                 <Picker.Item label="Atendimento" value="6" />
                 <Picker.Item label="Financeiro" value="7" />
                 <Picker.Item label="Suporte" value="5" />
                 
                 
               </Picker>
-  
             </View>
-          {/*   <View style={styles.file}>
+            <View style={styles.file}>
             
-            <Button title="Enviar arquivo" color={colors.highlightColor} onPress={pickDocument} />    
-           
-            </View>*/}
+            <Button title="Enviar arquivo"  onPress={pickDocument} />  
+            {urlBase4?.name
+            ?
+            <Text style={styles.nameFile}>{urlBase4?.name}</Text>
+            :
+            <Text></Text>
+            }  
+            
+            </View>
       
       <Controller
         control={control}
@@ -413,11 +368,11 @@ async function uploadDoc(arquivo:DataArquivo){
         defaultValue=""
       />
       {errors.content && <Text style={styles.error}>Informe uma descrição.</Text>}
-      <Button title="Enviar" color={colors.highlightColor} onPress={handleSubmit(onSubmit)} />
-      {/*<View style={styles.button}>
-       
-            <Button title="Upload" onPress={() => uploadDoc(arquivo)} />
-        </View>*/}
+    
+      <Button 
+      onPress={handleSubmit(onSubmit)}
+      title="Enviar"
+      />
         </View>
     </KeyboardAvoidingView>
     </SafeAreaView>
@@ -471,6 +426,12 @@ error: {
     margin: 20,
     marginLeft: 5,
     fontSize:16,
+    fontFamily:fonts.heading,
+  },
+  nameFile:{
+    color: colors.white,
+    margin: 5,
+    fontSize:14,
     fontFamily:fonts.heading,
   },
   button :{

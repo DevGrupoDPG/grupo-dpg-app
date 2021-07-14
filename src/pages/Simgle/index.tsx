@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState} from 'react';
 import {
   View,
-  Button, 
   StyleSheet, 
   Text, 
   StatusBar,  
@@ -16,6 +15,7 @@ import {Header} from '../../components/Header'
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 import logoDPG from '../../../assets/logoDPGBranco.png';
+import { Button }  from '../../components/Button';
 
 
 
@@ -44,7 +44,10 @@ function handleHome () {
       Aqui você acompanha todas as ações do seu site e pode usar o poder dos dados para otmizar as sua estratégias!
       </Text>
       <View style={styles.button}>
-      <Button title="Próximo" color={colors.highlightColor} onPress={handleHome} />
+      <Button 
+      onPress={handleHome}
+      title="Próximo"
+      />
       </View>
       
   

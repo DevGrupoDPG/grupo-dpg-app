@@ -9,7 +9,6 @@ import {
   Alert, 
   SafeAreaView,
   KeyboardAvoidingView, 
-  Button,
   Platform,
   ScrollView
 } from 'react-native';
@@ -20,6 +19,7 @@ import { useForm, Controller ,} from "react-hook-form";
 import { useNavigation } from '@react-navigation/core';
 import AuthContext  from '../../contexts/auth';
 import {Header} from '../../components/Header';
+import { Button }  from '../../components/Button';
 import { useRoute } from '@react-navigation/core'; 
 
 
@@ -268,7 +268,10 @@ function sendEmailApp (data:DataForm){
         defaultValue=""
       />
       {errors.content && <Text style={styles.error}>Informe uma descrição.</Text>}
-      <Button title="Solicitar agora" color={colors.highlightColor} onPress={handleSubmit(onSubmit)} />
+      <Button 
+      onPress={handleSubmit(onSubmit)}
+      title="Solicitar agora"
+      />
       </ScrollView>
     </View>
     </KeyboardAvoidingView>
