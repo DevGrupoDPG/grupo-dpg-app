@@ -1,0 +1,4 @@
+[build]
+  base = "."
+  command = "yarn rum build"
+  publish = "./web-build/"
