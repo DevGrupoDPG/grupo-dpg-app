@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     paddingVertical: 10,
     paddingHorizontal:10,
+    marginHorizontal:3,
     marginVertical: 10,
   },
   cardTitleMyProduct:{

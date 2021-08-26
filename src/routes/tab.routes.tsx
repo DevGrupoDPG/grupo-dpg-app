@@ -1,6 +1,8 @@
 import React from 'react';
 import Dashboard from '../pages/Dashboard';
 import Solicitation from '../pages/Solicitation';
+
+
 import Product from '../pages/Product';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -10,6 +12,7 @@ import colors from '../styles/colors';
 
 
 const AppTab = createBottomTabNavigator();
+
 
 
 
@@ -41,6 +44,7 @@ const AppTab = createBottomTabNavigator();
           color={color}
           />
         ))
+        
       }
     }
     />
@@ -52,7 +56,7 @@ const AppTab = createBottomTabNavigator();
         tabBarIcon: (({size, color}) => (
           <AntDesign
           name="message1"
-          size={size}
+          size={20}
           color={color}
           />
         ))

@@ -1,8 +1,10 @@
-import React, {  useEffect, useState, useContext } from 'react';
+import React, {  useEffect, useState, useContext, useRef } from 'react';
 import {View, StyleSheet, Text,FlatList,StatusBar,Platform} from 'react-native';
+import AppLoading from 'expo-app-loading';
 import * as Notifications from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AuthContext  from '../../contexts/auth';
+
 
 
 
@@ -14,6 +16,9 @@ import { useNavigation } from '@react-navigation/core';
 import {HistoricoCard} from '../../components/HistoricoCard';
 import {Header} from '../../components/Header'
 import { ListButton } from '../../components/ListButton';
+import { Tabs } from '../../components/Tabs';
+
+import Load  from '../../components/Load';
 
 
 Notifications.setNotificationHandler({
@@ -55,8 +60,8 @@ interface DataNotification{
   notification: string;
   notificationUsers: string;
 }
-interface User {
-  name: string;
+interface UserEmail {
+  userEmail: string;
   
 }
 
@@ -67,6 +72,8 @@ const [notificacao, setNotificacao] = useState<DataNotification[]>([]);
 const [category, setCategory] = useState<DataCategory[]>([]);
 const [filteredCategoria, setFilteredCategoria] = useState<DataCategory[]>([]);
 const [categorySelected, setCategorySelected]  = useState('Todos');
+const [load, setLoad]  = useState(false);
+const [userEmailUp, setuserEmailUp]  = useState<UserEmail | string>();
 
 
 
@@ -75,7 +82,13 @@ const [categorySelected, setCategorySelected]  = useState('Todos');
 
 
 
-const  user = useContext(AuthContext);
+const user = useContext(AuthContext);
+useEffect(()=>{
+  setuserEmailUp(`${user.userEmail}`);
+},[notificacao]);
+
+
+
 
 const navigation = useNavigation();
 
@@ -105,7 +118,7 @@ useEffect(() => {
   async function categorySelct () {
 
     const { data } = await api.get('/wp-json/wp/v2/categoria_do_historico?_sort=title&_order=asc');
- 
+
     setHistoricoInfo([
       {
         id: 0,
@@ -127,7 +140,7 @@ useEffect(() => {
 },[]);
 
 
-   useEffect(() => {
+  
 
     async function getHistorico() {
        
@@ -136,17 +149,15 @@ useEffect(() => {
        
        .then((res) => {
 
-          
+      
 
           if(res.data?.historico){
+            setLoad(true);
             setCategory(res.data?.historico);
             setFilteredCategoria(res.data?.historico);
             setNotificacao(res.data?.historico);
            
-         
-            
-            
-
+      
           }
 
         
@@ -160,10 +171,10 @@ useEffect(() => {
        }
        
        
-       getHistorico();
+     
        
       
-},[]);
+
 
 
 
@@ -172,7 +183,7 @@ useEffect(() => {
     
     async function  loadStoragedData(){
     const usersNotifcations = notificacao.filter(notification => 
-    notification.notification.includes('true')
+    notification.notification.includes(`${userEmailUp}`)
 
     );
     
@@ -192,32 +203,26 @@ useEffect(() => {
       Notifications.scheduleNotificationAsync({ content: {
       title: HistoricoDoCliente.title.substr(0, 50),
       body: `${HistoricoDoCliente.description.substr(0, 60)} 😃`,
-      }, trigger: { seconds: 2 } })
+      }, trigger: { seconds: 2 } });
+   
       }
-     
       
-      api.put(`/wp-json/wp/v2/historico/${HistoricoDoCliente.ID}`, {
+      
+      api.put('/wp-json/api/v1/historico', {
     
         
-        meta: {
-          
-          "dpg_user_select": HistoricoDoCliente.notificationUsers
-            
-          ,
-          
-          "dpg_notification_hidden": "false"
-        },
-      
+        id: HistoricoDoCliente.ID,
+        dpg_notification_hidden: [ `${userEmailUp}` ]
   
-    })
-      
+    });
+    
   
       }
   
       
       );
 
-   
+      
     
   }
 
@@ -226,7 +231,7 @@ useEffect(() => {
   
   }
   loadStoragedData(); 
-    
+  
 },[notificacao]);
 
 
@@ -236,15 +241,61 @@ function handleHistoricoSelect (historico:HistoricoDoCliente){
   navigation.navigate('Histórico', {historico});
 }
 
-console.log(filteredCategoria);
+function handlePageSelect (componet:string){
+  
+  navigation.navigate(componet);
+}
 
+
+function useInterval(callback: () => void, delay: number | null) {
+  const savedCallback = useRef(callback);
+
+  // Remember the latest callback if it changes.
+  useEffect(() => {
+    savedCallback.current = callback
+  }, [callback])
+
+  // Set up the interval.
+  useEffect(() => {
+    // Don't schedule if no delay is specified.
+    if (delay === null) {
+      return
+    }
+
+    const id = setInterval(() => savedCallback.current(), delay)
+
+    return () => clearInterval(id);
+  }, [delay]);
+}
+
+
+  const [delay, setDelay] = useState<number>(((1000 * 60 ) * 60  ) * 3 );
+  // ON/OFF
+  const [isPlaying, setPlaying] = useState<boolean>(false);
+  useInterval(
+    () => {
+    
+      getHistorico();
+    },
+    // Delay in milliseconds or null to stop it
+    isPlaying ? delay : null,
+  )
+  
+
+useEffect(()=>{
+ setPlaying(!isPlaying);
+  getHistorico();
+},[])
+ 
+
+   
 return (
     <View style={styles.container}>
 
       <View style={styles.header}>
       <Header/>
     
-      <Text style={styles.subtitle}>Histórico de interação.</Text>
+      <Text  style={styles.subtitle}>Histórico de interação.</Text>
    
       </View>
       <View >
@@ -267,6 +318,7 @@ return (
           
          />
       </View>
+      {!load? <AppLoading/> :
       <View style={styles.containerCard}>
      { filteredCategoria.length != 0
       ?
@@ -287,14 +339,20 @@ return (
 
     /> 
     :
-        <Text>Não tem históricos para ser exibido!</Text>
+        <Text style={styles.mensagemHistorico}>Não tem históricos para ser exibido!</Text>
       
     }
       
       </View>
+      }
+      <View>
+      <Tabs />
+      </View>
     </View>
   );
+
 }
+
 
 
 
@@ -359,11 +417,23 @@ const styles = StyleSheet.create ({
   containerCard: {
     flex: 1,
     maxWidth: '100%',
-    backgroundColor: colors.white,
-    paddingVertical: 20,
-    paddingHorizontal:10,
+
+    paddingVertical: 0,
+    paddingHorizontal:0,
     margin: 0,
   }
-   
+   ,
+  load:{
+    backgroundColor:'red'
+  },
+  mensagemHistorico:{
+    fontSize:16,
+    fontWeight:'400',
+    textAlign:'center',
+    color: colors.white,
+    marginBottom:20,
+    fontFamily:fonts.text,
+  
+  }
 })
 

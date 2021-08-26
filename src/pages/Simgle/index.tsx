@@ -28,7 +28,7 @@ export default function Simgle () {
 
 
 function handleHome () {
-  navigation.navigate('TabRoutes');
+  navigation.navigate('Home');
 }
 
   return (
@@ -41,7 +41,7 @@ function handleHome () {
         />
  
       <Text style={styles.title}>
-      Aqui você acompanha todas as ações do seu site e pode usar o poder dos dados para otmizar as sua estratégias!
+      Aqui você acompanha todas as ações do seu site e pode usar o poder dos dados para otimizar as suas estratégias!
       </Text>
       <View style={styles.button}>
       <Button 

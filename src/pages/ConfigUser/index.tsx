@@ -57,6 +57,12 @@ function handleUser (){
 
 
 
+function handlePrevious () {
+  navigation.goBack();
+}
+
+
+
 useEffect(() => {
 
   async function getCliente() {
@@ -96,11 +102,13 @@ useEffect(() => {
 
   return (
     <View style={styles.container}>
-      <Header/>
+  
       <ScrollView>
-      <Text  style={styles.title}>
-         Informações Empresa
-      </Text>
+     
+      <View style={styles.topTitle}>
+      <Text style={styles.title}>Informações</Text>
+      <Text  style={styles.subtitle}  onPress={handlePrevious} >Voltar</Text>
+      </View>
       <View style={styles.containerInfo} >
       {cliente?.logo
       ? <Image 
@@ -115,7 +123,7 @@ useEffect(() => {
         
    {cliente?.cliente
       ?  
-      <Text  style={styles.subtitle}>
+      <Text  style={styles.subtitleCard}>
          {cliente?.cliente}
       </Text>
         :<Text>
@@ -130,10 +138,10 @@ useEffect(() => {
          Informações do usuário
       </Text>
       <View style={styles.containerInfo} >
-      <Text  style={styles.subtitle}>
+      <Text  style={styles.subtitleCard}>
          {user.userName}
       </Text>
-      <Text  style={styles.subtitle}>
+      <Text  style={styles.subtitleCard}>
          {user.userEmail}
       </Text>
       <Text  style={styles.editar}  onPress={handleUser}>
@@ -158,6 +166,22 @@ const styles = StyleSheet.create ({
     paddingBottom: StatusBar.currentHeight || 20,
     backgroundColor:colors.background,
   },
+  topTitle:{
+    flexDirection:'row',
+    width:'100%',
+    justifyContent:'space-between',
+    alignItems:'center',
+
+  },
+  subtitle:{
+    fontSize:18,
+    fontWeight:'400',
+    textAlign:'center',
+    color:colors.white,
+    marginBottom:20,
+    fontFamily:fonts.text,
+    maxWidth:330, 
+  },
   containerInfo:{
     justifyContent: 'flex-start',
     backgroundColor:colors.white,
@@ -181,7 +205,7 @@ const styles = StyleSheet.create ({
     marginBottom:10,
     fontFamily:fonts.heading,
   },
-  subtitle:{
+  subtitleCard:{
     fontSize:16,
     fontWeight:'400',
     textAlign:'left',

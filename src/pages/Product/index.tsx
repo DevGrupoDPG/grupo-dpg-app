@@ -130,10 +130,11 @@ export default function Product ()  {
           
 
           if(res){
-         
+           
            setProdutos(res.data?.produto);
            setCategory(res.data?.produto);
            setFilteredProdutos(res.data?.produto);
+           
            
            function meusProdutosFilter (value:Produto) {
             
@@ -166,15 +167,16 @@ function handleProductSelect (produto:ProdutoSingle){
   navigation.navigate('Produto', {produto});
 }
 
-
+function handlePrevious () {
+  navigation.goBack();
+}
 return (
     <View style={styles.container}>
     
-      <View style={styles.header}>
-      <Header/>
-    
-         <Text style={styles.subtitle}>Produtos.</Text>
    
+      <View style={styles.topTitle}>
+      <Text style={styles.title}>Produtos</Text>
+      <Text  style={styles.subtitle}  onPress={handlePrevious} >Voltar</Text>
       </View>
       <View >
          <FlatList 
@@ -241,7 +243,23 @@ const styles = StyleSheet.create ({
     marginBottom:20,
     fontFamily:fonts.text,
     maxWidth:330, 
-  } ,
+  },
+  title:{
+    fontSize:18,
+    fontWeight:'500',
+    textAlign:'left',
+    color: colors.title,
+    marginBottom:10,
+    fontFamily:fonts.heading,
+  },
+   topTitle:{
+    flexDirection:'row',
+    width:'100%',
+    justifyContent:'space-between',
+    alignItems:'center',
+
+  },
+
   containerCard: {
     flex: 1,
     maxWidth: '100%',

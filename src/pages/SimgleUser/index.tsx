@@ -96,14 +96,13 @@ function handleHome (name:User) {
   return (
     <View style={styles.container}>
     
-      <Header/>
+    <View style={styles.topTitle}>
+       <Text style={styles.title}>Usuário</Text>
+      <Text  style={styles.subtitle}  onPress={handlePrevious} >Voltar</Text>
+      </View>
       <KeyboardAvoidingView>
     <SafeAreaView>
     <View>
-      <View style={styles.topTitle}>
-      <Text style={styles.title}>Usuário</Text>
-      <Text  style={styles.subtitle}  onPress={handlePrevious} >Voltar</Text>
-      </View>
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (

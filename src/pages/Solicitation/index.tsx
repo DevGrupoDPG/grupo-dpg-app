@@ -9,7 +9,8 @@ import {
   Alert, 
   SafeAreaView,
   KeyboardAvoidingView,
-  Platform } from 'react-native';
+  Platform ,
+} from 'react-native';
   import {Picker} from '@react-native-picker/picker';
   import * as DocumentPicker from 'expo-document-picker';
   import * as FileSystem from 'expo-file-system';
@@ -60,6 +61,7 @@ interface DataArquivo{
   file: {
     name: string ;
     type: string ;
+    uri:string ;
   }
 }
 
@@ -74,7 +76,7 @@ export default function Solicitation () {
 
 const [category, setCategory] = useState<DataCategory>();
 
-const  user = useContext(AuthContext);
+  const  user = useContext(AuthContext);
 
   
   const defaultValues = {
@@ -86,7 +88,9 @@ const  user = useContext(AuthContext);
   const navigation = useNavigation();
 
 
-   const pickDocument = async () => {
+   const pickDocument = async (file:DataArquivo) => {
+
+    if(Platform.OS !== 'web'){
      const result = await DocumentPicker.getDocumentAsync({});
       
       
@@ -101,7 +105,7 @@ const  user = useContext(AuthContext);
            });
            
         let fileType = nameParts[nameParts.length - 1];
-
+        console.log(urlBase64);
         let fileToUpload = {
           name: name,
           type:  fileType,
@@ -109,9 +113,25 @@ const  user = useContext(AuthContext);
           
         };
         setUrlBase4(fileToUpload);
+        
            
 
       }
+    }else {
+  
+      let result = await DocumentPicker.getDocumentAsync({});
+      
+      let fileToUploadWeb = {
+        name: result.file.name,
+        type:  result.file.type.split('/')[1],
+        uri: result.uri.split(',')[1] ,
+        
+      };
+      setUrlBase4(fileToUploadWeb );
+    
+
+      
+    }
      
     }
   
@@ -171,7 +191,9 @@ const formData = new FormData();
         "dpg_user_select":  [
           user.userEmail  
         ],
-        "dpg_notification_hidden": "false",
+        "dpg_notification_hidden": [
+          'false'
+        ],
       },
       categoria_do_historico: selectedCategory,
       fileToUpload:[
@@ -184,7 +206,7 @@ const formData = new FormData();
 
   }).then((res) => {
  
-
+    console.log(res.data);
     reset(defaultValues);
     setFile(res.data)
     sendEmailApp(res.data);
@@ -293,16 +315,16 @@ function sendEmailApp (data:DataForm){
 
   return (
     <View style={styles.container}>
-    <View style={styles.header}>
+    {/*<View style={styles.header}>
        <Header/>
-    </View>
+  </View>*/}
     <SafeAreaView>
     <KeyboardAvoidingView 
     
     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
     
-    <View >
+    <View style={styles.containerContent}>
 
       <View style={styles.topTitle}>
       <Text style={styles.title}>Enviar Solicitação</Text>
@@ -387,9 +409,13 @@ const styles = StyleSheet.create ({
     flex:1,
     justifyContent: 'flex-start',
     paddingHorizontal:20,
-    paddingTop: StatusBar.currentHeight || 20,
+    paddingTop: (StatusBar.currentHeight )|| 20,
     paddingBottom: StatusBar.currentHeight || 20,
     backgroundColor:colors.background,
+    
+  },
+  containerContent:{
+    paddingTop:40
   },
   
   header:{

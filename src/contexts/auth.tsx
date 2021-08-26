@@ -23,23 +23,28 @@ interface AuthContextData {
 
 
 const AuthContext = createContext <AuthContextData>({} as AuthContextData);
+
 export const AuthProvider: React.FC = ({children}) =>  {
  
   const [user, setUser] = useState<User | null |string>(null);
   const [userName, setUserName] = useState<User | null |string>(null);
   const [userEmail, setUserEmail] = useState<User | null |string>(null);
+ 
 
   const [loading, setLoading] = useState(true);
 
+
+ 
+  
+
   useEffect (()=>{
     async function  loadStoragedData(){
-  
-    
+      
     const storagedToken = await  AsyncStorage.getItem('@DPGAuth:token');
     const storagedUser = await  AsyncStorage.getItem('@DPGUser');
     const storagedEmail= await  AsyncStorage.getItem('@DPGEmail');
   
-    
+
     
     await new Promise((resolve) => setTimeout(resolve, 2000));
    
@@ -60,7 +65,9 @@ export const AuthProvider: React.FC = ({children}) =>  {
          
        })
        .catch((error) => {
-         console.error(error.status)
+        signOut();
+         console.error(error.status);
+      
       
        })
    

@@ -135,7 +135,7 @@ const formData = new FormData();
 
   api.defaults.headers['Authorization'] = `Bearer ${storagedToken}`;
   
-  api.post('/wp-json/wp/v2/historico', {
+  api.post('/wp-json/api/v1/historico', {
 
       title: produtoMensagem.title,
       status : "publish",
@@ -144,7 +144,9 @@ const formData = new FormData();
         "dpg_user_select":  [
           user.userEmail  
         ],
-        "dpg_notification_hidden": "false"
+        "dpg_notification_hidden": [
+          'false'
+        ],
       },
       categoria_do_historico: [
         24
@@ -230,9 +232,7 @@ function sendEmailApp (data:DataForm){
 }
  return (
     <View style={styles.container}>
-    <View style={styles.header}>
-       <Header/>
-    </View>
+    
     <SafeAreaView>
     <KeyboardAvoidingView 
     

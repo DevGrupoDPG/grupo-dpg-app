@@ -42,7 +42,10 @@ export default function SimgleClient () {
 
   return (
     <View style={styles.container}>
-      <Header/>
+      <View style={styles.topTitle}>
+       <Text style={styles.title}>informações</Text>
+      <Text  style={styles.subtitle}  onPress={handlePrevious} >Voltar</Text>
+      </View>
       <ScrollView style={styles.contentClient}>
    
       {cliente?.logo
@@ -60,14 +63,18 @@ export default function SimgleClient () {
       </Text>
       {cliente?.cliente
       ?
-      <Text style={styles.title}>
+      <Text style={styles.text}>
       {cliente.cliente }
       </Text>
       : <Text></Text>
-      }  
+      }
+      {cliente?.info
+      ? 
       <Text  style={styles.label}>
       Informação:
       </Text>
+       : <Text></Text>
+      }
       {cliente?.info
       ?
       <Text style={styles.text}>
@@ -75,9 +82,13 @@ export default function SimgleClient () {
       </Text>
       : <Text></Text>
        }
+       {cliente?.adicionalInfo
+      ?
       <Text style={styles.label}>
       Informações adicionais:
       </Text>
+       : <Text></Text>
+      }
       {cliente?.adicionalInfo
       ?
       <Text style={styles.text}>
@@ -86,9 +97,10 @@ export default function SimgleClient () {
       : <Text></Text>
       }
       
-      <View style={styles.button}>
-      <Button title="voltar" color={colors.highlightColor} onPress={handlePrevious} />
-      </View>
+     { //<View style={styles.button}>
+     // <Button title="voltar" color={colors.highlightColor} onPress={handlePrevious} />
+      // </View>
+     }
       </ScrollView>
      
     </View>
@@ -118,16 +130,45 @@ const styles = StyleSheet.create ({
     justifyContent: 'center',
     alignItems:'center',
   },
+  topTitle:{
+    flexDirection:'row',
+    width:'100%',
+    justifyContent:'space-between',
+    alignItems:'center',
+    color:colors.white,
+
+  },
+
+  subtitle:{
+    fontSize:18,
+    fontWeight:'400',
+    textAlign:'center',
+    color:colors.white,
+    marginBottom:20,
+    fontFamily:fonts.text,
+    maxWidth:330, 
+  },
   image: {
     width: 150,
     height:50,
     marginBottom:20,
   },
   title:{
-    fontSize:15,
+    fontSize:20,
     fontWeight:'700',
+    textAlign:'left',
+    marginBottom:18,
     fontFamily:fonts.heading,
+    color:colors.white,
 
+  },
+  subtitleCard:{
+    fontSize:16,
+    fontWeight:'400',
+    textAlign:'left',
+    color: colors.text,
+    marginBottom:20,
+    fontFamily:fonts.heading,
   },
   label:{
     fontWeight:'700',
@@ -142,6 +183,7 @@ const styles = StyleSheet.create ({
     fontWeight:'400',
     color: colors.text,
     fontFamily:fonts.text,
+    marginTop:10,
   
   },
   button:{

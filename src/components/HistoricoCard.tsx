@@ -32,14 +32,14 @@ export const HistoricoCard = ({ data, ...rest} : HistoricoProps) => {
        <View style={styles.timeIcone}>
        <Fontisto 
           name="date"
-          size={18}
+          size={14}
           color={colors.colorActive}
           style={styles.icone}
 
           
     />
        <View style={styles.timeLineAfterContainer}>
-       <View style={styles.timeLineAfter}></View>
+      
        </View>
        </View>
       <View style={styles.timeInfo}>
@@ -66,9 +66,11 @@ const styles = StyleSheet.create({
     flex: 1,
     maxWidth: '100%',
     backgroundColor: colors.white,
-    paddingVertical: 0,
+    paddingVertical: 10,
+    borderRadius:3,
     paddingHorizontal:10,
-    margin: 0,
+    marginVertical: 10,
+    marginHorizontal:3,
   },
   text:{
     color: colors.text,
@@ -111,11 +113,11 @@ const styles = StyleSheet.create({
     borderWidth:1,
     alignItems:'center',
     justifyContent: 'center',
-    padding:7,
+    padding:5,
     paddingLeft:7.8,
     borderRadius:5,
-    width:34,
-    height:34,
+    width:30,
+    height:27,
   },
   dataTexto:{
     fontSize:18,

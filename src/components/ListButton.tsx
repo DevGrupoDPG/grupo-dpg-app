@@ -41,12 +41,12 @@ export function ListButton ({
 
 const styles = StyleSheet.create({
   container:{
-    backgroundColor:colors.white,
+    backgroundColor:'rgba(255, 255, 255, 0.2)',
     height:40,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius:5,
-    marginHorizontal:5,
+    borderRadius:3,
+    marginHorizontal:3,
     paddingHorizontal:5,
     marginBottom:10,
   },
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     
   },
   text:{
-      color: colors.text,
+      color: colors.white,
       fontFamily: fonts.text,
   },
   textActive:{

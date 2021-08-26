@@ -17,7 +17,7 @@ const navigation = useNavigation();
 
 
 function handlePrevious () {
-  navigation.navigate('Produtos');
+  navigation.navigate('Home');
 }
 
 

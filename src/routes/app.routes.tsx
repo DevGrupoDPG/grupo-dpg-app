@@ -8,7 +8,7 @@ import ConfigUser from '../pages/ConfigUser';
 import Dashboard from '../pages/Dashboard';
 import Product from '../pages/Product';
 import SingleProduct from '../pages/SingleProduct';
-import TabRoutes from './tab.routes';
+//import TabRoutes from './tab.routes';
 import ThankClient from '../pages/ThankClient';
 import ThankHistorical from '../pages/ThankHistorical';
 import ThankProduct from '../pages/ThankProduct';
@@ -16,6 +16,8 @@ import Solicitation from '../pages/Solicitation';
 import SolicitationProduct from '../pages/SolicitationProduct';
 import AuthContext  from '../contexts/auth';
 import {DrawerActions } from '@react-navigation/native';
+
+
 
 
 
@@ -52,10 +54,7 @@ function DashboardScreenStack() {
        name="Início" 
        component = {Simgle} 
       /> 
-        <StackRoutes.Screen 
-       name="TabRoutes" 
-       component = {TabRoutes} 
-      /> 
+    
      
          <StackRoutes.Screen 
       name="Home"
@@ -104,7 +103,10 @@ function DashboardScreenStack() {
           name="Contratar Produto" 
           component = {SolicitationProduct}
           />
-    
+     <StackRoutes.Screen 
+      name="Obrigado Produto"
+      component={ThankProduct}
+     />
    
      
  
@@ -136,11 +138,7 @@ function ProductScreenStack() {
           name="Contratar Produto" 
           component = {SolicitationProduct}
           />
-      <StackRoutes.Screen 
-       name="TabRoutes" 
-       component = {TabRoutes} 
-      /> 
-     
+    
          <StackRoutes.Screen 
       name="Home"
       component={Dashboard}
@@ -175,10 +173,7 @@ function MensagemScreenStack() {
           name="Mensagem" 
           component = {Solicitation}
           />
-   <StackRoutes.Screen 
-       name="TabRoutes" 
-       component = {TabRoutes} 
-      /> 
+  
      
          <StackRoutes.Screen 
       name="Home"
@@ -249,7 +244,7 @@ function  handleSignOut(){
   
     <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />}
     drawerContentOptions={{
-      activeTintColor: '#e91e63',
+      activeTintColor: colors.colorActive,
       itemStyle: { marginVertical: 5 },
       
     }}
@@ -264,16 +259,17 @@ function  handleSignOut(){
       options={{ drawerLabel: 'Mensagem' }}
       component={MensagemScreenStack}
     />
+     <Drawer.Screen
+      name="Produtos"
+      options={{ drawerLabel: 'Produtos' }}
+      component={ProductScreenStack}
+    />
     <Drawer.Screen
       name="Configuração"
       options={{ drawerLabel: 'Configuração' }}
       component={ConfigScreenStack}
     />
-    <Drawer.Screen
-      name="Produtos"
-      options={{ drawerLabel: 'Produtos' }}
-      component={ProductScreenStack}
-    />
+   
     
     
   </Drawer.Navigator>

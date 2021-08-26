@@ -48,7 +48,10 @@ function openURL()  {
 }
   return (
     <View style={styles.container}>
-      <Header/>
+       <View style={styles.topTitle}>
+       <Text style={styles.title}>informações</Text>
+      <Text  style={styles.subtitle}  onPress={handlePrevious} >Voltar</Text>
+      </View>
       <ScrollView style={styles.contentHistorico}>
         
       <View>
@@ -116,18 +119,27 @@ const styles = StyleSheet.create ({
     justifyContent: 'center',
     alignItems:'center',
   },
+  topTitle:{
+    flexDirection:'row',
+    width:'100%',
+    justifyContent:'space-between',
+    alignItems:'center',
+
+  },
   title:{
     fontSize:20,
     fontWeight:'700',
-    marginBottom:20,
+    textAlign:'left',
+    marginBottom:18,
     fontFamily:fonts.heading,
+    color:colors.white,
 
   },
   subtitle:{
-    fontSize:16,
+    fontSize:18,
     fontWeight:'400',
     textAlign:'center',
-    color: colors.text,
+    color:colors.white,
     marginBottom:20,
     fontFamily:fonts.text,
     maxWidth:330, 
