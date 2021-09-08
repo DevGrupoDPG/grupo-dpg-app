@@ -6,6 +6,7 @@ import SimgleClient from '../pages/SimgleClient';
 import SimgleUser from '../pages/SimgleUser';
 import ConfigUser from '../pages/ConfigUser';
 import Dashboard from '../pages/Dashboard';
+
 import Product from '../pages/Product';
 import SingleProduct from '../pages/SingleProduct';
 //import TabRoutes from './tab.routes';
@@ -269,6 +270,7 @@ function  handleSignOut(){
       options={{ drawerLabel: 'Configuração' }}
       component={ConfigScreenStack}
     />
+  
    
     
     

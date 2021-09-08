@@ -149,7 +149,7 @@ export default function Product ()  {
         
       })
       .catch((error) => {
-        console.error(error)
+        console.error('Não produtos para ser exibido!')
      
       })
     
