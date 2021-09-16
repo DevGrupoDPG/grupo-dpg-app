@@ -55,7 +55,7 @@ function openURL()  {
       <ScrollView style={styles.contentHistorico}>
         
       <View>
-      <Text style={styles.title}>
+      <Text style={styles.titleDescription}>
       { historico.title }
       </Text>
       <Text style={styles.info}>
@@ -143,6 +143,15 @@ const styles = StyleSheet.create ({
     marginBottom:20,
     fontFamily:fonts.text,
     maxWidth:330, 
+  },
+  titleDescription:{
+    fontSize:18,
+    fontWeight:'700',
+    textAlign:'left',
+    color: colors.text,
+    marginBottom:20,
+    fontFamily:fonts.text,
+    maxWidth:330,
   },
   description:{
     fontSize:16,

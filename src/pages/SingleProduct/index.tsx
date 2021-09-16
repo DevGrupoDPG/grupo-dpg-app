@@ -88,7 +88,7 @@ function handleProductSelect (produtoMensagem:ProdutoMensagem){
       <ScrollView style={styles.contentProduto}>
         
       <View>
-      <Text style={styles.title}>
+      <Text style={styles.titleDescription}>
       { produto.title }
       </Text>
      
@@ -176,7 +176,15 @@ const styles = StyleSheet.create ({
     fontFamily:fonts.text,
     maxWidth:330, 
   },
-  
+  titleDescription:{
+    fontSize:18,
+    fontWeight:'700',
+    textAlign:'left',
+    color: colors.text,
+    marginBottom:20,
+    fontFamily:fonts.text,
+    maxWidth:330,
+  },
   description:{
     fontSize:16,
     fontWeight:'400',

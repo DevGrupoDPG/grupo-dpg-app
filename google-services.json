@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "57829358299",
+    "project_id": "app-grupo-dpg",
+    "storage_bucket": "app-grupo-dpg.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57829358299:android:dd95909880a1612abdaafe",
+        "android_client_info": {
+          "package_name": "com.grupodpg.grupodpgapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "57829358299-f761vgu54tjn7aimvq9cd4t2e2l2ip03.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcrsNw4uz6-XxysIPjTbTyH7ZZvWOySGQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "57829358299-f761vgu54tjn7aimvq9cd4t2e2l2ip03.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

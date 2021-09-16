@@ -105,7 +105,7 @@ const [category, setCategory] = useState<DataCategory>();
            });
            
         let fileType = nameParts[nameParts.length - 1];
-        console.log(urlBase64);
+        //console.log(urlBase64);
         let fileToUpload = {
           name: name,
           type:  fileType,
@@ -206,7 +206,7 @@ const formData = new FormData();
 
   }).then((res) => {
  
-    console.log(res.data);
+    //console.log(res.data);
     reset(defaultValues);
     setFile(res.data)
     sendEmailApp(res.data);
@@ -363,6 +363,7 @@ function sendEmailApp (data:DataForm){
             <View style={styles.file}>
             
             <Button title="Enviar arquivo"  onPress={pickDocument} />  
+            
             {urlBase4?.name
             ?
             <Text style={styles.nameFile}>{urlBase4?.name}</Text>

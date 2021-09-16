@@ -2,7 +2,7 @@
   "expo": {
     "name": "Grupo DPG",
     "slug": "grupo-dpg",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -17,14 +17,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.grupodpg.grupodpgapp",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.grupodpg.grupodpgapp"
+      "googleServicesFile": "./google-services.json",
+      "package": "com.grupodpg.grupodpgapp",
+      "versionCode": 4
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -76,12 +76,6 @@ const [load, setLoad]  = useState(false);
 const [userEmailUp, setuserEmailUp]  = useState<UserEmail | string>();
 
 
-
-
-
-
-
-
 const user = useContext(AuthContext);
 useEffect(()=>{
   setuserEmailUp(`${user.userEmail}`);
@@ -179,60 +173,6 @@ useEffect(() => {
 
 
 
-useEffect(() => {
-    
-    async function  loadStoragedData(){
-    const usersNotifcations = notificacao.filter(notification => 
-    notification.notification.includes(`${userEmailUp}`)
-
-    );
-    
-    const storagedToken = await  AsyncStorage.getItem('@DPGAuth:token');
-  
-
-    if(storagedToken) {
-  
- 
-
-    api.defaults.headers['Authorization'] = `Bearer ${storagedToken}`;
-
-
-    usersNotifcations.map((HistoricoDoCliente) => {
-      
-      if(Platform.OS !== 'web'){
-      Notifications.scheduleNotificationAsync({ content: {
-      title: HistoricoDoCliente.title.substr(0, 50),
-      body: `${HistoricoDoCliente.description.substr(0, 60)} 😃`,
-      }, trigger: { seconds: 2 } });
-   
-      }
-      
-      
-      api.put('/wp-json/api/v1/historico', {
-    
-        
-        id: HistoricoDoCliente.ID,
-        dpg_notification_hidden: [ `${userEmailUp}` ]
-  
-    });
-    
-  
-      }
-  
-      
-      );
-
-      
-    
-  }
-
-  
-
-  
-  }
-  loadStoragedData(); 
-  
-},[notificacao]);
 
 
 
@@ -247,43 +187,7 @@ function handlePageSelect (componet:string){
 }
 
 
-function useInterval(callback: () => void, delay: number | null) {
-  const savedCallback = useRef(callback);
-
-  // Remember the latest callback if it changes.
-  useEffect(() => {
-    savedCallback.current = callback
-  }, [callback])
-
-  // Set up the interval.
-  useEffect(() => {
-    // Don't schedule if no delay is specified.
-    if (delay === null) {
-      return
-    }
-
-    const id = setInterval(() => savedCallback.current(), delay)
-
-    return () => clearInterval(id);
-  }, [delay]);
-}
-
-
-  const [delay, setDelay] = useState<number>(((1000 * 60 ) * 60  ) * 3 );
-  // ON/OFF
-  const [isPlaying, setPlaying] = useState<boolean>(false);
-  useInterval(
-    () => {
-    
-      getHistorico();
-    },
-    // Delay in milliseconds or null to stop it
-    isPlaying ? delay : null,
-  )
-  
-
 useEffect(()=>{
- setPlaying(!isPlaying);
   getHistorico();
 },[])
  
