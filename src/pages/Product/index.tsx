@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/core';
 import {ProductCard} from '../../components/ProductCard';
 import {Header} from '../../components/Header';
 import { ListButton } from '../../components/ListButton';
+import Load from '../../components/Load';
 
 
 
@@ -57,6 +58,7 @@ export default function Product ()  {
   const [meusProdutos, setMeusProdutos] = useState<DataCategory[]>([]);
   const [filteredProdutos, setFilteredProdutos] = useState<DataCategory[]>([]);
   const [categoryProdutos, setCategoryProdutos]  = useState('Todos');
+  const [load, setLoad]  = useState(false);
  
   const navigation = useNavigation();
 
@@ -130,10 +132,11 @@ export default function Product ()  {
           
 
           if(res){
-           
+           setLoad(true);
            setProdutos(res.data?.produto);
            setCategory(res.data?.produto);
            setFilteredProdutos(res.data?.produto);
+           
            
            
            function meusProdutosFilter (value:Produto) {
@@ -169,6 +172,12 @@ function handleProductSelect (produto:ProdutoSingle){
 
 function handlePrevious () {
   navigation.goBack();
+}
+
+if(!load){
+  return (
+    <Load/>
+  );
 }
 return (
     <View style={styles.container}>

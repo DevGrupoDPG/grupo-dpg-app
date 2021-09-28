@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native';
  import LottieView from 'lottie-react-native';
 
  import loadAnimation from '../../assets/load.json';
+import colors from '../styles/colors';
 
  export default function Load () {
    return (
@@ -25,6 +26,7 @@ import { StyleSheet, View } from 'react-native';
      flex:1,
      justifyContent:'center',
      alignItems:'center',
+     backgroundColor:colors.white
    },
    animation: {
      backgroundColor: 'transparent',

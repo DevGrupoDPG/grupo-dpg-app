@@ -189,8 +189,18 @@ function handlePageSelect (componet:string){
 
 useEffect(()=>{
   getHistorico();
-},[])
- 
+},[]);
+
+
+if (!load){
+  
+  return (
+    <Load/>
+  );
+
+
+}
+
 
    
 return (
@@ -222,7 +232,7 @@ return (
           
          />
       </View>
-      {!load? <AppLoading/> :
+   
       <View style={styles.containerCard}>
      { filteredCategoria.length != 0
       ?
@@ -248,7 +258,7 @@ return (
     }
       
       </View>
-      }
+      
       <View>
       <Tabs />
       </View>

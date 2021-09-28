@@ -31,7 +31,12 @@ function handlePrevious () {
         Solicitação enviada {"\n"}com sucesso!
        </Text>
 
-       <Button title="voltar" color={colors.highlightColor} onPress={handlePrevious} />
+       <View style={styles.button}>
+       <Button 
+      onPress={handlePrevious}
+      title="Voltar"
+      />
+      </View>
       
      
     </View>
@@ -60,6 +65,10 @@ const styles = StyleSheet.create ({
 
   },emotion:{
     fontSize:60,
+  },
+  button:{
+    marginTop:20,
+    marginBottom:50,
   }
    
 })
