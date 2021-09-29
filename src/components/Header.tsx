@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
     alignItems:'center',
     paddingVertical:0,
-    marginBottom:20
-    //marginTop: getStatusBarHeight(),
+    marginBottom:20,
+    marginTop: getStatusBarHeight(),
   },
   config: {
     width: 56,

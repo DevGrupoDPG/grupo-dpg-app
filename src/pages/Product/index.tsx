@@ -236,7 +236,7 @@ const styles = StyleSheet.create ({
     flex:1,
     justifyContent: 'flex-start',
     paddingHorizontal:20,
-    paddingTop: StatusBar.currentHeight || 20,
+    paddingTop: StatusBar.currentHeight || 50,
     paddingBottom: StatusBar.currentHeight || 20,
     backgroundColor:colors.background,
   },

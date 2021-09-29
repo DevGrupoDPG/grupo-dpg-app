@@ -176,7 +176,7 @@ const styles = StyleSheet.create ({
     justifyContent:'center',
     alignItems:'center',
     paddingHorizontal:20,
-    paddingTop: StatusBar.currentHeight || 20,
+    paddingTop: StatusBar.currentHeight || 40,
     paddingBottom: StatusBar.currentHeight || 20,
     backgroundColor:colors.background,
     

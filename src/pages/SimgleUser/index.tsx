@@ -8,7 +8,7 @@ import {
   Alert, 
   SafeAreaView,
   KeyboardAvoidingView, 
-  Button,
+ 
  } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,6 +16,7 @@ import { useNavigation } from '@react-navigation/core';
 import { useForm, Controller } from "react-hook-form";
 import AuthContext  from '../../contexts/auth';
 
+import { Button }  from '../../components/Button';
 import {Header} from '../../components/Header'
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
@@ -138,7 +139,13 @@ function handleHome (name:User) {
         
       />
       {errors.password && <Text>Informe um senha.</Text>}
-       <Button title="Atualizar" color={colors.highlightColor} onPress={handleSubmit(onSubmit)} />
+       
+       <View style={styles.button}>
+      <Button 
+      onPress={handleSubmit(onSubmit)}
+      title="Próximo"
+      />
+      </View>
     </View>
 
     </SafeAreaView>
@@ -156,7 +163,7 @@ const styles = StyleSheet.create ({
     flex:1,
     justifyContent: 'flex-start',
     paddingHorizontal:20,
-    paddingTop: StatusBar.currentHeight || 20,
+    paddingTop: StatusBar.currentHeight || 40,
     paddingBottom: StatusBar.currentHeight || 20,
     backgroundColor:colors.background,
   },
@@ -206,12 +213,7 @@ const styles = StyleSheet.create ({
     fontSize:16,
     fontFamily:fonts.heading,
   },
-  button :{
-    marginTop: 40,
-    color: 'white',
-    height: 40,
-    borderRadius: 4,
-  },
+
   input: {
     backgroundColor:colors.white,
     borderColor:colors.white,
@@ -223,6 +225,13 @@ const styles = StyleSheet.create ({
     paddingHorizontal:10,
     borderRadius: 4,
     marginBottom:10,
-  }
+  },
+  button :{
+    marginTop: 40,
+    marginBottom:20,
+    color: 'white',
+    height: 40,
+    borderRadius: 4,
+  },
    
 })
