@@ -17,9 +17,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
       "bundleIdentifier": "com.grupodpg.grupodpgapp",
-      "buildNumber": "1.0.0"
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
